@@ -1,0 +1,36 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+
+  datasource:
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+  redis:
+    database: ${REDIS_DATABASE}
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP}
+
+  elasticsearch:
+    uris: ${ES_URIS}
+    username: ${ES_USER}
+    password: ${ES_PASSWORD}
+
+dubbo.registry.address: ${NACOS_ADDR}
+
+# 生产环境关闭日志
+mybatis-plus:
+  configuration:
+    log-impl: ''
+
+#knife4j:
+#  basic:
+#    enable: true
+#    username: ${KNIFE4J_USER}
+#    password: ${KNIFE4J_PASSWORD}

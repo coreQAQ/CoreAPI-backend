@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8070}
+
+spring:
+  redis:
+    database: ${REDIS_DATABASE}
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP}
+
+  elasticsearch:
+    uris: ${ES_URIS}
+    username: ${ES_USER}
+    password: ${ES_PASSWORD}
+
+  cloud.gateway.routes:
+    - id: CoreAPI-api
+      uri: ${API_URI}
+      predicates: [ "Path=/v1/**" ]
+      filters:    [ "ApiInvoke" ]
+    - id: CoreAPI-main
+      uri: ${MAIN_URI}
+      predicates: [ "Path=/api/**" ]
+
+dubbo.registry.address: ${NACOS_ADDR}
+
+# 生产环境关闭日志
+mybatis-plus:
+  configuration:
+    log-impl: ''

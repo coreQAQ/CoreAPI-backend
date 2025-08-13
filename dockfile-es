@@ -1,0 +1,15 @@
+# 仅用于初始化 mapping 及安装插件
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.28
+
+# 安装ik分词插件
+RUN elasticsearch-plugin install --batch https://get.infini.cloud/elasticsearch/analysis-ik/7.17.28
+
+# 拷贝mapping目录到镜像
+COPY mapping/*.json /usr/share/elasticsearch/mapping/
+
+# 拷贝自定义初始化脚本到镜像
+COPY mapping/init-mapping.sh /usr/local/bin/init-mapping.sh
+RUN chmod +x /usr/local/bin/init-mapping.sh
+
+# 用自定义 entrypoint 脚本启动（会先初始化mapping，再启动ES）
+ENTRYPOINT ["/usr/local/bin/init-mapping.sh"]

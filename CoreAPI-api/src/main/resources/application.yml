@@ -1,0 +1,29 @@
+server:
+  port: 8090
+# 公共配置文件
+spring:
+  profiles:
+    active: dev
+  application:
+    name: CoreAPI-api
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: # TODO
+    username: # TODO
+    password: # TODO
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+# 接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: "接口文档"
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.core.coreapi.controller

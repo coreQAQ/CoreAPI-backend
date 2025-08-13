@@ -1,0 +1,56 @@
+server:
+  port: 8070
+spring:
+  profiles:
+    active: dev
+  application:
+    name: CoreAPI-gateway
+
+  # Elasticsearch 配置
+  elasticsearch:
+    uris: # TODO
+    username: # TODO
+    password: # TODO
+
+  # Redis 配置
+  redis:
+    database: # TODO
+    host: # TODO
+    port: # TODO
+    timeout: 5000
+    password: # TODO
+
+  # Kafka配置
+  kafka:
+    bootstrap-servers: # TODO
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: PLAINTEXT
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: CoreAPI-api
+#          uri: # TODO
+#          predicates:
+#            - Path=/v1/**
+#          filters:
+#            - ApiInvoke
+#        - id: CoreAPI-main
+#          uri: # TODO
+#          predicates:
+#            - Path=/api/**
+
+dubbo:
+  application:
+    name: CoreAPI-gateway
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://  # TODO
+    timeout: 10000
+  consumer:
+    check: false

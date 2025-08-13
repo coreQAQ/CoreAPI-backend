@@ -1,0 +1,17 @@
+{
+  "aliases": {
+    "api_log": {}
+  },
+  "mappings": {
+    "properties": {
+      "ak": { "type": "keyword" },
+      "uri": { "type": "keyword" },
+      "method": { "type": "keyword" },
+      "statusCode": { "type": "integer" },
+      "duration": { "type": "long" },
+      "ip": { "type": "ip" },
+      "userAgent": { "type": "text" },
+      "timestamp": { "type": "date" }
+    }
+  }
+}

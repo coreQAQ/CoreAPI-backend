@@ -1,0 +1,93 @@
+name: coreapi-backend
+services:
+  # ──────────────────────── Gateway ────────────────────────
+  gateway:
+    build:
+      context: ./CoreAPI-gateway
+      dockerfile: Dockerfile
+    container_name: coreapi-gateway
+    restart: unless-stopped
+    ports:
+      - "8070:8070"
+    environment:
+      - TZ=Asia/Shanghai
+      # 下游服务
+      - API_URI=http://api:8090
+      - MAIN_URI=http://main:8080
+      # Redis
+      - REDIS_DATABASE=0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      # Kafka
+      - KAFKA_BOOTSTRAP=kafka:9092
+      # ES
+      - ES_URIS=http://es:9200
+      - ES_USER=${ES_USER}
+      - ES_PASSWORD=${ES_PASSWORD}
+      # Nacos
+      - NACOS_ADDR=nacos://nacos:8848
+
+      - JAVA_TOOL_OPTIONS=-Xmx768m
+    depends_on:
+      - main
+      - api
+    networks:
+      - env-net
+
+  # ──────────────────────── Main ────────────────────────
+  main:
+    build:
+      context: ./CoreAPI-main
+      dockerfile: Dockerfile
+    container_name: coreapi-main
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Asia/Shanghai
+      # MySQL
+      - MYSQL_URL=jdbc:mysql://mysql:3306/core_api
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      # Redis
+      - REDIS_DATABASE=0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      # Kafka
+      - KAFKA_BOOTSTRAP=kafka:9092
+      # ES
+      - ES_URIS=http://es:9200
+      - ES_USER=${ES_USER}
+      - ES_PASSWORD=${ES_PASSWORD}
+      # Nacos
+      - NACOS_ADDR=nacos://nacos:8848
+
+      - JAVA_TOOL_OPTIONS=-Xmx512m
+    networks: 
+      - env-net
+
+  # ──────────────────────── API ────────────────────────
+  api:
+    build:
+      context: ./CoreAPI-api
+      dockerfile: Dockerfile
+    container_name: coreapi-api
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    environment:
+      - TZ=Asia/Shanghai
+      # MySQL
+      - MYSQL_URL=jdbc:mysql://mysql:3306/api_data
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+      - JAVA_TOOL_OPTIONS=-Xmx384m
+    networks:
+      - env-net
+
+networks:
+  env-net:
+   external: true

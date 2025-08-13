@@ -1,0 +1,101 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+# 公共配置文件
+spring:
+  application:
+    name: CoreAPI-main
+  # 默认 dev 环境
+  profiles:
+    active: dev
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # session 配置
+  session:
+    store-type: redis
+    # 1h 过期
+    timeout: 3600
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: # TODO
+    username: # TODO
+    password: # TODO
+  # spring cache
+  cache:
+    type: redis
+  # Redis 配置
+  redis:
+    database: # TODO
+    host: # TODO
+    port: # TODO
+    timeout: 5000
+    password: # TODO
+  # Kafka配置
+  kafka:
+    bootstrap-servers: # TODO
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: PLAINTEXT
+      max-poll-records: 10
+    listener:
+      type: batch
+  # Elasticsearch 配置
+  elasticsearch:
+    uris: # TODO
+    username: # TODO
+    password: # TODO
+  # 文件上传
+  servlet:
+    multipart:
+      # 大小限制
+      max-file-size: 10MB
+  freemarker:
+    prefix: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+    settings:
+      boolean_format: c
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+# 接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: "接口文档"
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.core.coreapi.controller
+dubbo:
+  application:
+    # 设置应用的名称
+    name: CoreAPI-main
+    enable-file-cache: false
+  # 指定使用 Dubbo 协议，且端口设置为 -1，表示随机分配可用端口
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    # 配置注册中心为 Nacos
+    id: nacos-registry
+    address: nacos:// # TODO
+    timeout: 10000

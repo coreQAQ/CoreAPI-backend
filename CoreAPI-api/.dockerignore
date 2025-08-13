@@ -1,0 +1,6 @@
+# 忽略所有文件
+**
+# 白名单
+!target/CoreAPI-api-0.0.1.jar
+!application-prod.yml
+!Dockerfile
